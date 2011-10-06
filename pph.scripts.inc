@@ -4,30 +4,30 @@
 /**
  * Implementation of hook_voipscript_get_script_names()
  */
-function pcn_voipscript_get_script_names() {
-  $script_names[] = 'pcn_welcome_script';
-  $script_names[] = 'pcn_options_script';
-  $script_names[] = 'pcn_play_announcement_script';
-  $script_names[] = 'pcn_record_message_script';
+function pph_voipscript_get_script_names() {
+  $script_names[] = 'pph_welcome_script';
+  $script_names[] = 'pph_main_menu_script';
+  $script_names[] = 'pph_play_play_story_script';
+  $script_names[] = 'pph_record_message_script';
   return $script_names;
 }
 
 /**
  * Implementation of hook_voipscript_load_script()
  */
-function pcn_voipscript_load_script($script_name, $options=NULL) {
+function pph_voipscript_load_script($script_name, $options=NULL) {
 
-  require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'pcn.prompts.inc');
+  require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'pph.prompts.inc');
 
   $script = NULL;
   switch($script_name) {
     default:
       break;
 
-    case 'pcn_welcome_script':
+    case 'pph_welcome_script':
       $options['language'] = 'en';
 
-      $script = new VoipScript('pcn_welcome_script');
+      $script = new VoipScript('pph_welcome_script');
       $script->addSetVoice('woman');
       $script->addSet('max_session_duration', 0);
 
@@ -43,8 +43,6 @@ function pcn_voipscript_load_script($script_name, $options=NULL) {
       $input_options = array(
         '1' => 'english_version',
         '2' => 'spanish_version',
-        '3' => 'portuguese_version',
-        '4' => 'creole_version',
         '#' => 'invalid_option',
         'i' => 'invalid_option',
         't' => 'invalid_option'
@@ -54,22 +52,12 @@ function pcn_voipscript_load_script($script_name, $options=NULL) {
       $script->addGoto('%ivr_option_selected');
 
       $script->addLabel('english_version');
-      $script->addGosub('pcn_options_script', $options);
+      $script->addGosub('pph_main_menu_script', $options);
       $script->addGoto('hang_up');
 
       $script->addLabel('spanish_version');
       $options['language'] = 'es';
-      $script->addGosub('pcn_options_script', $options);
-      $script->addGoto('hang_up');
-
-      $script->addLabel('portuguese_version');
-      $options['language'] = 'pt';
-      $script->addGosub('pcn_options_script', $options);
-      $script->addGoto('hang_up');
-
-      $script->addLabel('creole_version');
-      $options['language'] = 'ht';
-      $script->addGosub('pcn_options_script', $options);
+      $script->addGosub('pph_main_menu_script', $options);
       $script->addGoto('hang_up');
 
       $script->addLabel('invalid_option');
@@ -79,13 +67,22 @@ function pcn_voipscript_load_script($script_name, $options=NULL) {
       $script->addHangup();
       break;
 
-    case 'pcn_options_script':
-      $script = new VoipScript('pcn_options_script');
+    case 'pph_main_menu_script':
+      $script = new VoipScript('pph_main_menu_script');
       $language = $options['language'];
+
+      $script->addLabel('introduction');
+      $script->addGetInput(v('p_introduction', $language), 1);
 
       $p_options_menu = v('p_options_menu', $language);
       $input_options = array(
-        '1' => 'play_announcement',
+        '1' => 'introduction',
+        '2' => 'definition',
+        '3' => 'wages',
+        '4' => 'compensation',
+        '5' => 'insurance',
+        '6' => 'immigration',
+        '7' => 'nannies',
         '*' => 'record_message',
         '#' => 'invalid_option',
         'i' => 'invalid_option',
@@ -95,12 +92,38 @@ function pcn_voipscript_load_script($script_name, $options=NULL) {
       $script->addRunIvrMenu($p_options_menu, $input_options, $p_invalid_msg);
       $script->addGoto('%ivr_option_selected');
 
-      $script->addLabel('play_announcement');
-      $script->addGosub('pcn_play_announcement_script', $options);
+      $script->addLabel('definition');
+      $options['story_id'] = 'definition';
+      $script->addGosub('pph_play_story_script', $options);
+      $script->addGoto('go_back');
+
+      $script->addLabel('wages');
+      $options['story_id'] = 'wages';
+      $script->addGosub('pph_play_story_script', $options);
+      $script->addGoto('go_back');
+
+      $script->addLabel('compensation');
+      $options['story_id'] = 'compensation';
+      $script->addGosub('pph_play_story_script', $options);
+      $script->addGoto('go_back');
+
+      $script->addLabel('insurance');
+      $options['story_id'] = 'insurance';
+      $script->addGosub('pph_play_story_script', $options);
+      $script->addGoto('go_back');
+
+      $script->addLabel('immigration');
+      $options['story_id'] = 'immigration';
+      $script->addGosub('pph_play_story_script', $options);
+      $script->addGoto('go_back');
+
+      $script->addLabel('nannies');
+      $options['story_id'] = 'nannies';
+      $script->addGosub('pph_play_story_script', $options);
       $script->addGoto('go_back');
 
       $script->addLabel('record_message');
-      $script->addGosub('pcn_record_message_script', $options);
+      $script->addGosub('pph_record_message_script', $options);
       $script->addGoto('go_back');
 
       $script->addLabel('invalid_option');
@@ -111,15 +134,15 @@ function pcn_voipscript_load_script($script_name, $options=NULL) {
       $script->addReturn();
       break;
 
-    case 'pcn_play_announcement_script':
-      $script = new VoipScript('pcn_play_announcement_script');
-      $announcement = _pcn_get_latest_announcement($options['language']);
-      $script->addSay($announcement);
+    case 'pph_play_story_script':
+      $script = new VoipScript('pph_play_story_script');
+$story_id = $options['story_id'];
+$script->addSay("About to play story id: $story_id. ");
       $script->addReturn();
       break;
 
-    case 'pcn_record_message_script':
-      $script = new VoipScript('pcn_record_message_script');
+    case 'pph_record_message_script':
+      $script = new VoipScript('pph_record_message_script');
 $script->addSay('This is where the message is going to be recorded.');
       $script->addReturn();
       break;
@@ -134,7 +157,7 @@ $script->addSay('This is where the message is going to be recorded.');
  * Internal functions
  */
 
-function _pcn_get_latest_announcement($language) {
+function _pph_get_latest_announcement($language) {
 
   $sql = "SELECT n.nid AS nid FROM {node} n WHERE (n.type = 'announcement') AND (n.status <> 0) AND (n.promote <> 0)";
   $result = db_query($sql);
