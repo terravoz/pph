@@ -1,0 +1,58 @@
+<?php
+/**
+ * @file Provides VoIP Drupal functionality for the PCN project
+ */
+
+foreach (array('pcn.scripts.inc') as $file) {
+  require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . $file);
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function pcn_perm() {
+  return array('administer pcn');
+}
+
+/*
+ * Implementation of hook_menu()
+ */
+function pcn_menu() {
+  $items = array();
+
+  $items['admin/settings/pcn'] = array(
+    'title' => 'PCN',
+    'description' => 'PCN configuration.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('pcn_admin_form', NULL),
+    'access arguments' => array('administer pcn'),
+  );
+
+  return $items;
+}
+
+function pcn_admin_form($configuration) {
+  $form['pcn_email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Announcement destination email'),
+    '#description' => t("The email address(es) to send the announcements to. If empty, no email messages will be sent."),
+    '#default_value' => variable_get('pcn_email', ''),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
+
+  return $form;
+}
+
+function pcn_admin_form_submit($form, &$form_state) {
+  if ($form_state['values']['pcn_email']) {
+    drupal_set_message(t('Announcement destination email updated.'));
+    $email = trim($form_state['values']['pcn_email']);
+    variable_set('pcn_email', $email);
+  }
+}
+
+
