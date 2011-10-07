@@ -62,9 +62,12 @@ $pph_prompts['p_thank_you']['es']['text'] = '(In Spanish) Thank you for calling 
 
 // Prompts associated with pph_main_menu_script
 
-$pph_prompts['p_introduction']['en']['text'] = 'This system does this, but it also does that. ';
-$pph_prompts['p_options_menu']['en']['text'] = 'To listen to the latest announcement, press 1. To record a message or a question to the Parent Connectors, press the star key. ';
-$pph_prompts['p_options_menu']['es']['text'] = '(In Spanish) To listen to the latest announcement, press 1. To record a message or a question to the Parent Connectors, press the star key. ';
+$pph_prompts['p_introduction']['en']['text'] = "Are you a nanny, housekeeper, or elderly care-giver wanting to know more about your rights? Or, are you the parent of a beautiful little one who you hire a nanny to help look after? And do you want to find out how to comply with the law so your wonderful nanny is treated right?  You have come to the right place! ";
+$pph_prompts['p_introduction']['es']['text'] = "Spanish version of the introduction";
+
+$pph_prompts['p_options_menu']['en']['text'] = 
+"Main menu. To repeat the introduction, press 1. To hear the definition of a domestic worker, press 2.  To hear about minimum wages, press 3. To hear about overtime wages, press 4. To hear about days of rest, press 5. To hear about taxes and being paid off the books, press 6. To hear about wage deductions, press 7. To hear about unemployment insurance, press 8. To record your own story, press 9. To be connected to Domestic Workers United, press the star key. To hang up, press the pound key. ";
+$pph_prompts['p_options_menu']['es']['text'] = 'Spanish version of the menu. ';
 
 
 // Prompts associated with pph_play_announcement_script

@@ -7,8 +7,8 @@
 function pph_voipscript_get_script_names() {
   $script_names[] = 'pph_welcome_script';
   $script_names[] = 'pph_main_menu_script';
-  $script_names[] = 'pph_play_play_story_script';
-  $script_names[] = 'pph_record_message_script';
+  $script_names[] = 'pph_play_story_script';
+  $script_names[] = 'pph_record_story_script';
   return $script_names;
 }
 
@@ -74,17 +74,20 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addLabel('introduction');
       $script->addGetInput(v('p_introduction', $language), 1);
 
+      $script->addLabel('options_menu');
       $p_options_menu = v('p_options_menu', $language);
       $input_options = array(
         '1' => 'introduction',
         '2' => 'definition',
-        '3' => 'wages',
-        '4' => 'compensation',
-        '5' => 'insurance',
-        '6' => 'immigration',
-        '7' => 'nannies',
-        '*' => 'record_message',
-        '#' => 'invalid_option',
+        '3' => 'minimum_wages',
+        '4' => 'overtime_wages',
+        '5' => 'days_of_rest',
+        '6' => 'taxes',
+        '7' => 'wage_deduction',
+        '8' => 'insurance',
+        '9' => 'record_story',
+        '*' => 'redirect_call',
+        '#' => 'go_back',
         'i' => 'invalid_option',
         't' => 'invalid_option'
       );
@@ -95,35 +98,44 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addLabel('definition');
       $options['story_id'] = 'definition';
       $script->addGosub('pph_play_story_script', $options);
-      $script->addGoto('go_back');
+      $script->addGoto('options_menu');
 
-      $script->addLabel('wages');
-      $options['story_id'] = 'wages';
+      $script->addLabel('minimum_wages');
+      $options['story_id'] = 'minimum_wages';
       $script->addGosub('pph_play_story_script', $options);
-      $script->addGoto('go_back');
+      $script->addGoto('options_menu');
 
-      $script->addLabel('compensation');
-      $options['story_id'] = 'compensation';
+      $script->addLabel('overtime_wages');
+      $options['story_id'] = 'overtime_wages';
       $script->addGosub('pph_play_story_script', $options);
-      $script->addGoto('go_back');
+      $script->addGoto('options_menu');
+
+      $script->addLabel('days_of_rest');
+      $options['story_id'] = 'days_of_rest';
+      $script->addGosub('pph_play_story_script', $options);
+      $script->addGoto('options_menu');
+
+      $script->addLabel('taxes');
+      $options['story_id'] = 'taxes';
+      $script->addGosub('pph_play_story_script', $options);
+      $script->addGoto('options_menu');
+
+      $script->addLabel('wage_deduction');
+      $options['story_id'] = 'wage_deduction';
+      $script->addGosub('pph_play_story_script', $options);
+      $script->addGoto('options_menu');
 
       $script->addLabel('insurance');
       $options['story_id'] = 'insurance';
       $script->addGosub('pph_play_story_script', $options);
-      $script->addGoto('go_back');
+      $script->addGoto('options_menu');
 
-      $script->addLabel('immigration');
-      $options['story_id'] = 'immigration';
-      $script->addGosub('pph_play_story_script', $options);
-      $script->addGoto('go_back');
-
-      $script->addLabel('nannies');
-      $options['story_id'] = 'nannies';
-      $script->addGosub('pph_play_story_script', $options);
-      $script->addGoto('go_back');
-
-      $script->addLabel('record_message');
+      $script->addLabel('record_story');
       $script->addGosub('pph_record_message_script', $options);
+      $script->addGoto('options_menu');
+
+      $script->addLabel('redirect_call');
+$script->addSay('This is where the call is going to be redirected to DWU. ');
       $script->addGoto('go_back');
 
       $script->addLabel('invalid_option');
@@ -141,9 +153,9 @@ $script->addSay("About to play story id: $story_id. ");
       $script->addReturn();
       break;
 
-    case 'pph_record_message_script':
-      $script = new VoipScript('pph_record_message_script');
-$script->addSay('This is where the message is going to be recorded.');
+    case 'pph_record_story_script':
+      $script = new VoipScript('pph_record_story_script');
+$script->addSay('This is where the personal story is going to be recorded.');
       $script->addReturn();
       break;
 
