@@ -70,5 +70,20 @@ $pph_prompts['p_options_menu']['en']['text'] =
 $pph_prompts['p_options_menu']['es']['text'] = 'Spanish version of the menu. ';
 
 
-// Prompts associated with pph_play_announcement_script
+// Prompts associated with pph_play_story_script
+
+$pph_prompts['p_definition']['en']['text'] = "Play episode about definition of a domestic worker. ";
+
+$pph_prompts['p_minimum_wages']['en']['text'] = "Play episode about minimum wages. ";
+
+$pph_prompts['p_overtime_wages']['en']['text'] = "Play episode about overtime wages. ";
+
+$pph_prompts['p_days_of_rest']['en']['text'] = "Play episode about days of rest. ";
+
+$pph_prompts['p_taxes']['en']['text'] = "Play episode about taxes. ";
+
+$pph_prompts['p_wage_deduction']['en']['text'] = "Play episode about wage deduction. ";
+
+$pph_prompts['p_insurance']['en']['text'] = "Play episode about insurance. ";
+
 

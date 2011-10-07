@@ -148,8 +148,37 @@ $script->addSay('This is where the call is going to be redirected to DWU. ');
 
     case 'pph_play_story_script':
       $script = new VoipScript('pph_play_story_script');
-$story_id = $options['story_id'];
+      $story_id = $options['story_id'];
 $script->addSay("About to play story id: $story_id. ");
+      switch($story_id) {
+        default:
+$script->addSay("Invalid story id: $story_id. ");
+$script->addLog("Invalid story id: $story_id. ");
+return;
+          break;
+        case 'definition':
+          $prompt = v('p_definition', $language);
+          break;
+        case 'minimum_wages':
+          $prompt = v('p_minimum_wages', $language);
+          break;
+        case 'overtime_wages':
+          $prompt = v('p_overtime_wages', $language);
+          break;
+        case 'days_of_rest':
+          $prompt = v('p_days_of_rest', $language);
+          break;
+        case 'taxes':
+          $prompt = v('p_taxes', $language);
+          break;
+        case 'wage_deduction':
+          $prompt = v('p_wage_deduction', $language);
+          break;
+        case 'insurance':
+          $prompt = v('p_insurance', $language);
+          break;
+      }
+      $script->addSay($prompt);
       $script->addReturn();
       break;
 
