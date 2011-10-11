@@ -147,12 +147,10 @@ $script->addSay('This is where the call is going to be redirected to DWU. ');
       break;
 
     case 'pph_play_story_script':
-watchdog('debug', "options: " . print_r($options, true));
       $script = new VoipScript('pph_play_story_script');
       $story_id = $options['story_id'];
       $language = $options['language'];
 
-$script->addSay("About to play story id: $story_id. ");
       switch($story_id) {
         default:
 $script->addSay("Invalid story id: $story_id. ");

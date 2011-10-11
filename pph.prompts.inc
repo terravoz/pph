@@ -52,7 +52,7 @@ $pph_prompts['p_invalid_msg']['en']['text'] = 'Invalid option selected';
 
 // Prompts associated with the pph_welcome script
 
-$pph_prompts['p_greetings']['en']['text'] = 'Welcome to the Domestic Workers Online Hotline. ';
+$pph_prompts['p_greetings']['en']['text'] = 'Welcome to the Domestic Workers United Hotline. ';
 
 $pph_prompts['p_language_selection_menu']['en']['text'] = "For English, press 1. For Spanish, press 2. ";
 
@@ -90,4 +90,23 @@ $pph_prompts['p_instructions']['en']['text'] = 'While listening, feel free to pr
 
 $pph_prompts['p_playback_menu']['en']['text'] = 'To listen to the story once again, press 1. To go back to the main menu, press the pound key. ';
 
+//-----------------------
+//$p_definition[] = new VoipPrompt('Helloooo, Caller! I am Christine Lewis and in this episode of "New Day New Standard," we are going to define exactly what a "domestic worker" is.  Narrator, can ya define that for us, now?', 'woman');
+$p_definition[] = new VoipPrompt('Helloooo, Caller! I am Christine Lewis and in this episode of New Day, New Standard, we are going to define exactly what a domestic worker is.  Narrator, can ya define that for us, now?', 'woman');
 
+
+$p_definition[] = new VoipPrompt('Domestic workers are nannies, housekeepers, and elder caregivers who provide invaluable labor that frees others to work outside the home. In the state of New York, there are over 200 thousand domestic workers. Until now, domestic workers have largely been an invisible workforce in the eyes of the state. However, in November of 2010, the passage of the New York Domestic Worker Bill of Rights expanded labor protection for domestic workers and has raised public awareness of the problems of the industry.', 'man');
+
+$p_definition[] = new VoipPrompt('You are probably wondering what that means for you.', 'woman');
+
+$p_definition[] = new VoipPrompt('If you are a domestic worker, both the Fair Labor Standards ACT and New York Labor Law prohibit an employer from firing or otherwise retaliating against you for exercising your rights under wage and hour laws.', 'man');
+
+$p_definition[] = new VoipPrompt('So if you are a domestic worker, this means you are now covered by a new set of laws, even if you are paid off the books!', 'woman');
+
+$p_definition[] = new VoipPrompt('But remember to keep records of the hours you worked and the wages you were paid!', 'man');
+
+$p_definition[] = new VoipPrompt('Thats right: this is a new day new standard. Its very exciting and you are part of a movement that is paving the path for others. If you are the employer of a domestic worker, this means that you have new responsibilities. Are ya complying?', 'woman');
+
+$pph_prompts['p_definition']['en']['text'] = $p_definition;
+
+$pph_prompts['p_introduction']['en']['text'] = " Hi ";
