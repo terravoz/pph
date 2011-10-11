@@ -131,7 +131,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addGoto('options_menu');
 
       $script->addLabel('record_story');
-      $script->addGosub('pph_record_message_script', $options);
+      $script->addGosub('pph_record_story_script', $options);
       $script->addGoto('options_menu');
 
       $script->addLabel('redirect_call');
@@ -147,8 +147,11 @@ $script->addSay('This is where the call is going to be redirected to DWU. ');
       break;
 
     case 'pph_play_story_script':
+watchdog('debug', "options: " . print_r($options, true));
       $script = new VoipScript('pph_play_story_script');
       $story_id = $options['story_id'];
+      $language = $options['language'];
+
 $script->addSay("About to play story id: $story_id. ");
       switch($story_id) {
         default:
@@ -178,7 +181,26 @@ return;
           $prompt = v('p_insurance', $language);
           break;
       }
-      $script->addSay($prompt);
+      $script->addLabel('play_story');
+      $script->addSay(v('p_instructions', $language));
+      $script->addGetInput($prompt, 1, '#', 1);
+
+      $script->addLabel('playback_menu');
+      $p_options_menu = v('p_playback_menu', $language);
+      $input_options = array(
+        '1' => 'play_story',
+        '#' => 'go_back',
+        'i' => 'invalid_option',
+        't' => 'invalid_option'
+      );
+      $p_invalid_msg = v('p_invalid_msg');
+      $script->addRunIvrMenu($p_options_menu, $input_options, $p_invalid_msg);
+      $script->addGoto('%ivr_option_selected');
+
+      $script->addLabel('invalid_option');
+      $script->addGoto('go_back');
+
+      $script->addLabel('go_back');
       $script->addReturn();
       break;
 
@@ -193,36 +215,4 @@ $script->addSay('This is where the personal story is going to be recorded.');
   return $script;
 }
 
-
-/**
- * Internal functions
- */
-
-function _pph_get_latest_announcement($language) {
-
-  $sql = "SELECT n.nid AS nid FROM {node} n WHERE (n.type = 'announcement') AND (n.status <> 0) AND (n.promote <> 0)";
-  $result = db_query($sql);
-  // the following code assumes that there will be only one announcement promoted at a time
-  $o = db_fetch_object($result);
-  if($o) {
-    $n = node_load($o->nid);
-    $field_audio_title_name = 'field_audio_title_' . $language;
-    $field_audio_title = $n->$field_audio_title_name;
-    if($field_audio_title[0]) {
-      $audio_title_url = url($field_audio_title[0]['filepath'], array('absolute' => TRUE));
-      $announcement = $audio_title_url;
-    }
-    $field_audio_body_name = 'field_audio_body_' . $language;
-    $field_audio_body = $n->$field_audio_body_name;
-    if($field_audio_body[0]) {
-      $audio_body_url = url($field_audio_body[0]['filepath'], array('absolute' => TRUE));
-      $announcement .= " $audio_body_url";
-    }
-  }
-  else {
-    $announcement = 'No announcements recorded in the system.';
-  }
-
-  return $announcement;
-}
 

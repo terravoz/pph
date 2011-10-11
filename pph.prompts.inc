@@ -52,7 +52,7 @@ $pph_prompts['p_invalid_msg']['en']['text'] = 'Invalid option selected';
 
 // Prompts associated with the pph_welcome script
 
-$pph_prompts['p_greetings']['en']['text'] = 'Welcome to the DWU Hotline. ';
+$pph_prompts['p_greetings']['en']['text'] = 'Welcome to the Domestic Workers Online Hotline. ';
 
 $pph_prompts['p_language_selection_menu']['en']['text'] = "For English, press 1. For Spanish, press 2. ";
 
@@ -67,23 +67,27 @@ $pph_prompts['p_introduction']['es']['text'] = "Spanish version of the introduct
 
 $pph_prompts['p_options_menu']['en']['text'] = 
 "Main menu. To repeat the introduction, press 1. To hear the definition of a domestic worker, press 2.  To hear about minimum wages, press 3. To hear about overtime wages, press 4. To hear about days of rest, press 5. To hear about taxes and being paid off the books, press 6. To hear about wage deductions, press 7. To hear about unemployment insurance, press 8. To record your own story, press 9. To be connected to Domestic Workers United, press the star key. To hang up, press the pound key. ";
-$pph_prompts['p_options_menu']['es']['text'] = 'Spanish version of the menu. ';
+$pph_prompts['p_options_menu']['es']['text'] = 'Spanish version of the main menu. ';
 
 
 // Prompts associated with pph_play_story_script
 
-$pph_prompts['p_definition']['en']['text'] = "Play episode about definition of a domestic worker. ";
+$pph_prompts['p_definition']['en']['text'] = "Here the system will play an episode about definition of a domestic worker. ";
 
-$pph_prompts['p_minimum_wages']['en']['text'] = "Play episode about minimum wages. ";
+$pph_prompts['p_minimum_wages']['en']['text'] = "Here the system will play an episode about minimum wages. ";
 
-$pph_prompts['p_overtime_wages']['en']['text'] = "Play episode about overtime wages. ";
+$pph_prompts['p_overtime_wages']['en']['text'] = "Here the system will play an episode about overtime wages. ";
 
-$pph_prompts['p_days_of_rest']['en']['text'] = "Play episode about days of rest. ";
+$pph_prompts['p_days_of_rest']['en']['text'] = "Here the system will play an episode about days of rest. ";
 
-$pph_prompts['p_taxes']['en']['text'] = "Play episode about taxes. ";
+$pph_prompts['p_taxes']['en']['text'] = "Here the system will play an episode about taxes. ";
 
-$pph_prompts['p_wage_deduction']['en']['text'] = "Play episode about wage deduction. ";
+$pph_prompts['p_wage_deduction']['en']['text'] = "Here the system will play an episode about wage deduction. ";
 
-$pph_prompts['p_insurance']['en']['text'] = "Play episode about insurance. ";
+$pph_prompts['p_insurance']['en']['text'] = "Here the system will play an episode about insurance. ";
+
+$pph_prompts['p_instructions']['en']['text'] = 'While listening, feel free to press any key to go to the story menu. ';
+
+$pph_prompts['p_playback_menu']['en']['text'] = 'To listen to the story once again, press 1. To go back to the main menu, press the pound key. ';
 
 
