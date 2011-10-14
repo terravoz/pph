@@ -109,4 +109,3 @@ $p_definition[] = new VoipPrompt('Thats right: this is a new day new standard. I
 
 $pph_prompts['p_definition']['en']['text'] = $p_definition;
 
-$pph_prompts['p_introduction']['en']['text'] = " Hi ";
