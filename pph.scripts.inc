@@ -97,8 +97,8 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addGoto('options_menu');
 
       $script->addLabel('about_dwu');
-$script->addSay('This is where the call is going to be redirected to DWU. ');
-      $script->addGoto('hang_up');
+$script->addSay('This is where the call is going to be redirected to DWU phone 2 1 2 4 8 1 5 7 4 7. ');
+      $script->addGoto('return');
 
       $script->addLabel('report_abuse');
 $script->addSay('This is where abuses will be reported. ');
@@ -117,6 +117,9 @@ $script->addSay('This is where employer penalties will be explained. ');
 
       $script->addLabel('hang_up');
       $script->addSay(v('p_thank_you', $language));
+
+      $script->addLabel('return');
+      $script->addReturn();
       break;
 
     case 'pph_episode_directory_script':
