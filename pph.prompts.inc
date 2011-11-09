@@ -71,8 +71,21 @@ $pph_prompts['p_introduction']['en']['text']
 $pph_prompts['p_introduction']['es']['text'] = "Spanish version of the introduction";
 
 $pph_prompts['p_options_menu']['en']['text'] = 
-"Main menu. To hear exciting episodes about the Domestic Workers Bill of Rights, press 1. To learn more about Domestic Workers United and upcoming meetings, press 2. To report an abuse, press 3. To share a positive story, press 4. To hear about penalties for employers who do not comply with the law, press 5. To hang up press the pound key. "; 
+"Main menu. To hear exciting episodes about the Domestic Workers Bill of Rights, press 1. To report an abuse, press 2. To share a positive story, press 3. To hear about penalties for employers who do not comply with the law, press 4. To be redirected to Domestic Workers United, press 5. To hang up press the pound key. "; 
 $pph_prompts['p_options_menu']['es']['text'] = 'Spanish version of the main menu. ';
+
+$pph_prompts['p_report_abuse']['en']['text'] = 'Please record your name and your abuse story after the beep. When done, press the pound key.';
+$pph_prompts['p_report_abuse']['es']['text'] = '(in Spanish) Please record your name and your abuse story after the beep. When done, press the pound key.';
+
+$pph_prompts['p_positive_story']['en']['text'] = 'Please record your name and your positive story after the beep. When done, press the pound key.';
+$pph_prompts['p_positive_story']['es']['text'] = '(in Spanish) Please record your name and your positive story after the beep. When done, press the pound key.';
+
+$pph_prompts['p_employer_penalties']['en']['text'] = 'this is where employer penalties will be explained. ';
+$pph_prompts['p_employer_penalties']['es']['text'] = '(spanish version of) where employer penalties will be explained. ';
+
+$pph_prompts['p_redirecting']['en']['text'] = 'Redirecting to DWU office';
+$pph_prompts['p_redirecting']['es']['text'] = '(spanish verstion of) Redirecting to DWU office';
+
 
 // Prompts associated with the episode directory
 
@@ -97,10 +110,24 @@ $pph_prompts['p_immigration']['en']['text'] = "Here the system will play an epis
 
 
 $pph_prompts['p_episode_intro']['en']['text'] = "Hello, Caller! Welcome to New Day, New Standard, a show about the Domestic Workers Bill of Rights and what that means for you.  I am Christine Lewis; I am a nanny. And I am Miss Know-It-All.  You're about to listen to a new episode, but listen up. In case you want to go back to the list of episodes, press any key at any time. ";
+$pph_prompts['p_episode_intro']['es']['text'] = "Spanish version of episode intro. ";
 
 $pph_prompts['p_episode_outro']['en']['text'] = "This is a very, very exciting moment for domestic workers. For the first time ever, domestic workers are recognized under the labor laws. New York domestic workers paved the way for every nanny, housekeeper, and elder caregiver across the country. Everyone has a stake in getting in on the action and keep blazing the trail of dignity and justice for the workers who make all other work possible. ";
+$pph_prompts['p_episode_outro']['es']['text'] = "Spanish version of episode outro. ";
 
 $pph_prompts['p_outro_menu']['en']['text'] = 'To report an abuse, press 1. To share a positive story, press 2. To go back to the episode directory, press the pound key. ';
+
+// Prompts associated with the pph_record_story_script
+
+$pph_prompts['p_recording_confirmation']['en']['text'] = 'To hear your recording, press 1. To accept your recording, press 2. To record once again, press the star key.';
+$pph_prompts['p_recording_confirmation']['es']['text'] = '(in Spanish) To hear your recording, press 1. To accept your recording, press 2. To record once again, press the star key.';
+
+$pph_prompts['p_recording_playback']['en']['text'] = 'This is what you recorded: ';
+$pph_prompts['p_recording_playback']['es']['text'] = '(in Spanish) This is what you recorded: ';
+
+$pph_prompts['p_story_accepted']['en']['text'] = 'Your story has been successfully recorded. ';
+$pph_prompts['p_story_accepted']['es']['text'] = '(in Spanish) Your story has been successfully recorded. ';
+
 
 //-----------------------
 //$p_definition[] = new VoipPrompt('Helloooo, Caller! I am Christine Lewis and in this episode of "New Day New Standard," we are going to define exactly what a "domestic worker" is.  Narrator, can ya define that for us, now?', 'woman');

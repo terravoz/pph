@@ -80,10 +80,10 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $p_options_menu = v('p_options_menu', $language);
       $input_options = array(
         '1' => 'play_episodes',
-        '2' => 'about_dwu',
-        '3' => 'report_abuse',
-        '4' => 'positive_story',
-        '5' => 'employer_penalties',
+        '2' => 'report_abuse',
+        '3' => 'positive_story',
+        '4' => 'employer_penalties',
+        '5' => 'redirect_to_dwu',
         '#' => 'hang_up',
         'i' => 'invalid_option',
         't' => 'invalid_option'
@@ -96,21 +96,25 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addGosub('pph_episode_directory_script', $options);
       $script->addGoto('options_menu');
 
-      $script->addLabel('about_dwu');
-$script->addSay('This is where the call is going to be redirected to DWU phone 2 1 2 4 8 1 5 7 4 7. ');
-      $script->addGoto('return');
-
       $script->addLabel('report_abuse');
-$script->addSay('This is where abuses will be reported. ');
+      $options['story_prompt'] = v('p_report_abuse', $language);
+      $script->addGosub('pph_record_story_script', $options);
       $script->addGoto('options_menu');
 
       $script->addLabel('positive_story');
-$script->addSay('This is where positive stories will be recorded. ');
+      $options['story_prompt'] = v('p_positive_story', $language);
+      $script->addGosub('pph_record_story_script', $options);
       $script->addGoto('options_menu');
 
       $script->addLabel('employer_penalties');
-$script->addSay('This is where employer penalties will be explained. ');
+      $script->addSay(v('p_employer_penalties', $language));
       $script->addGoto('options_menu');
+
+      $script->addLabel('redirect_to_dwu');
+      $script->addSay(v('p_redirecting', $language));
+      $dwu_number = '+12124815747';
+      $script->addDial($dwu_number);
+      $script->addGoto('return');
 
       $script->addLabel('invalid_option');
       $script->addGoto('hang_up');
@@ -223,7 +227,7 @@ return;
       $script->addLabel('play_story');
       $p_episode_intro = v('p_episode_intro', $language);
       $p_episode_outro = v('p_episode_outro', $language);
-      $p_episode_prompt = "$episode_intro $prompt $episode_outro";
+      $p_episode_prompt = "$p_episode_intro $prompt $p_episode_outro";
       
       $script->addGetInput($p_episode_prompt, 1, '#', 1);
       $script->addGoto('go_back');
@@ -251,13 +255,72 @@ return;
 
     case 'pph_record_story_script':
       $script = new VoipScript('pph_record_story_script');
-$script->addSay('This is where the personal story is going to be recorded.');
+      $language = $options['language'];
+
+      $script->addLabel('start');
+      $prompt = $options['story_prompt'];
+      $timeout = 5;
+      $end_key = '#';
+      $max_length = 300; // TODO: max length of the story
+      $script->addRecord($prompt, $timeout, $end_key, $max_length);
+
+// TODO: process hang up on recording
+
+      $script->addLabel('accept_menu');
+      $prompt = v('p_recording_confirmation', $language);
+      $input_options = array(
+        '1' => 'play_recording',
+        '2' => 'accept_recording',
+        '*' => 'start',
+        '#' => 'go_back',
+        'i' => 'invalid_option',
+        't' => 'invalid_option'
+      );
+      $p_invalid_msg = v('p_invalid_msg');
+      $script->addRunIvrMenu($prompt, $input_options, $p_invalid_msg);
+      $script->addGoto('%ivr_option_selected');
+
+      $script->addLabel('invalid_option');
+      $script->addGoto('go_back');
+
+      $script->addLabel('play_recording');
+      $script->addSay(v('p_recording_playback'));
+      $script->addSay('%recording_public_url');
+      $script->addGoto('accept_menu');
+
+      $script->addLabel('accept_recording');
+      $encoded_options = addslashes(json_encode($options));
+      $script->addSet('callback_result',
+        "^_pph_recording_callback(%call_id, %recording_public_url, %recording_duration, '$encoded_options')");
+// TODO: check callback result
+      $script->addSay(v('p_story_accepted'));
+      $script->addGoto('go_back');
+
+      $script->addLabel('go_back');
       $script->addReturn();
       break;
-
   }
 
   return $script;
+}
+
+/**
+ * Internal functions
+ */
+
+function _pph_recording_callback($call_id, $recording_url, $recording_duration, $encoded_options) {
+watchdog('pph', "New story recorded for call id: $call_id, url: $recording_url, duration: $recording_duration");
+// TODO: add type to recorded stories
+/****
+  $voipblog_options = (array)json_decode(stripslashes($encoded_options));
+  $voipblog_options['node_type'] = 'memory';
+  $voipblog_options['audio_field_name'] = 'field_memory_audio';
+  $voipblog_options['voipblog_type'] = $voipblog_options['memory_type'];
+  $voipblog_options['memory_destination'] = $destination_nid;
+  $serialized_options = serialize($voipblog_options);
+  $rc = voipblog_recording_callback($call_id, $recording_url, $recording_duration, $serialized_options);
+****/
+  return $rc;
 }
 
 
