@@ -7,6 +7,7 @@
 function pph_voipscript_get_script_names() {
   $script_names[] = 'pph_welcome_script';
   $script_names[] = 'pph_main_menu_script';
+  $script_names[] = 'pph_episode_directory_script';
   $script_names[] = 'pph_play_story_script';
   $script_names[] = 'pph_record_story_script';
   return $script_names;
@@ -25,7 +26,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       break;
 
     case 'pph_welcome_script':
-      $options['language'] = 'en';
+      $options['language'] = 'es';
 
       $script = new VoipScript('pph_welcome_script');
       $script->addSetVoice('woman');
@@ -41,8 +42,8 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addLabel('language_selection');
       $p_main_menu = v('p_language_selection_menu');
       $input_options = array(
-        '1' => 'english_version',
-        '2' => 'spanish_version',
+        '1' => 'spanish_version',
+        '2' => 'english_version',
         '#' => 'invalid_option',
         'i' => 'invalid_option',
         't' => 'invalid_option'
@@ -51,12 +52,12 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addRunIvrMenu($p_main_menu, $input_options, $p_invalid_msg);
       $script->addGoto('%ivr_option_selected');
 
-      $script->addLabel('english_version');
+      $script->addLabel('spanish_version');
       $script->addGosub('pph_main_menu_script', $options);
       $script->addGoto('hang_up');
 
-      $script->addLabel('spanish_version');
-      $options['language'] = 'es';
+      $script->addLabel('english_version');
+      $options['language'] = 'en';
       $script->addGosub('pph_main_menu_script', $options);
       $script->addGoto('hang_up');
 
@@ -75,18 +76,63 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addGetInput(v('p_introduction', $language), 1);
 
       $script->addLabel('options_menu');
+//TODO: what to do with strings that have a ' (like leo's car) in the middle?
       $p_options_menu = v('p_options_menu', $language);
       $input_options = array(
-        '1' => 'introduction',
-        '2' => 'definition',
-        '3' => 'minimum_wages',
-        '4' => 'overtime_wages',
-        '5' => 'days_of_rest',
-        '6' => 'taxes',
-        '7' => 'wage_deduction',
-        '8' => 'insurance',
-        '9' => 'record_story',
-        '*' => 'redirect_call',
+        '1' => 'play_episodes',
+        '2' => 'about_dwu',
+        '3' => 'report_abuse',
+        '4' => 'positive_story',
+        '5' => 'employer_penalties',
+        '#' => 'hang_up',
+        'i' => 'invalid_option',
+        't' => 'invalid_option'
+      );
+      $p_invalid_msg = v('p_invalid_msg');
+      $script->addRunIvrMenu($p_options_menu, $input_options, $p_invalid_msg);
+      $script->addGoto('%ivr_option_selected');
+
+      $script->addLabel('play_episodes');
+      $script->addGosub('pph_episode_directory_script', $options);
+      $script->addGoto('options_menu');
+
+      $script->addLabel('about_dwu');
+$script->addSay('This is where the call is going to be redirected to DWU. ');
+      $script->addGoto('hang_up');
+
+      $script->addLabel('report_abuse');
+$script->addSay('This is where abuses will be reported. ');
+      $script->addGoto('options_menu');
+
+      $script->addLabel('positive_story');
+$script->addSay('This is where positive stories will be recorded. ');
+      $script->addGoto('options_menu');
+
+      $script->addLabel('employer_penalties');
+$script->addSay('This is where employer penalties will be explained. ');
+      $script->addGoto('options_menu');
+
+      $script->addLabel('invalid_option');
+      $script->addGoto('hang_up');
+
+      $script->addLabel('hang_up');
+      $script->addSay(v('p_thank_you', $language));
+      break;
+
+    case 'pph_episode_directory_script':
+      $script = new VoipScript('pph_episode_directory_script');
+      $language = $options['language'];
+
+      $script->addLabel('episode_directory');
+      $p_options_menu = v('p_episode_directory', $language);
+      $input_options = array(
+        '1' => 'definition',
+        '2' => 'minimum_wages',
+        '3' => 'overtime_wages',
+        '4' => 'taxes',
+        '5' => 'wage_deduction',
+        '6' => 'insurance',
+        '9' => 'immigration',
         '#' => 'go_back',
         'i' => 'invalid_option',
         't' => 'invalid_option'
@@ -98,51 +144,43 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addLabel('definition');
       $options['story_id'] = 'definition';
       $script->addGosub('pph_play_story_script', $options);
-      $script->addGoto('options_menu');
+      $script->addGoto('episode_directory');
 
       $script->addLabel('minimum_wages');
       $options['story_id'] = 'minimum_wages';
       $script->addGosub('pph_play_story_script', $options);
-      $script->addGoto('options_menu');
+      $script->addGoto('episode_directory');
 
       $script->addLabel('overtime_wages');
       $options['story_id'] = 'overtime_wages';
       $script->addGosub('pph_play_story_script', $options);
-      $script->addGoto('options_menu');
-
-      $script->addLabel('days_of_rest');
-      $options['story_id'] = 'days_of_rest';
-      $script->addGosub('pph_play_story_script', $options);
-      $script->addGoto('options_menu');
+      $script->addGoto('episode_directory');
 
       $script->addLabel('taxes');
       $options['story_id'] = 'taxes';
       $script->addGosub('pph_play_story_script', $options);
-      $script->addGoto('options_menu');
+      $script->addGoto('episode_directory');
 
       $script->addLabel('wage_deduction');
       $options['story_id'] = 'wage_deduction';
       $script->addGosub('pph_play_story_script', $options);
-      $script->addGoto('options_menu');
+      $script->addGoto('episode_directory');
 
       $script->addLabel('insurance');
       $options['story_id'] = 'insurance';
       $script->addGosub('pph_play_story_script', $options);
-      $script->addGoto('options_menu');
+      $script->addGoto('episode_directory');
 
-      $script->addLabel('record_story');
-      $script->addGosub('pph_record_story_script', $options);
-      $script->addGoto('options_menu');
-
-      $script->addLabel('redirect_call');
-$script->addSay('This is where the call is going to be redirected to DWU. ');
-      $script->addGoto('go_back');
+      $script->addLabel('immigration');
+      $options['story_id'] = 'immigration';
+      $script->addGosub('pph_play_story_script', $options);
+      $script->addGoto('episode_directory');
 
       $script->addLabel('invalid_option');
       $script->addGoto('go_back');
 
+// todo: should the system return or hangup here?
       $script->addLabel('go_back');
-      $script->addSay(v('p_thank_you', $language));
       $script->addReturn();
       break;
 
@@ -166,9 +204,6 @@ return;
         case 'overtime_wages':
           $prompt = v('p_overtime_wages', $language);
           break;
-        case 'days_of_rest':
-          $prompt = v('p_days_of_rest', $language);
-          break;
         case 'taxes':
           $prompt = v('p_taxes', $language);
           break;
@@ -178,13 +213,21 @@ return;
         case 'insurance':
           $prompt = v('p_insurance', $language);
           break;
+        case 'immigration':
+          $prompt = v('p_immigration', $language);
+          break;
       }
       $script->addLabel('play_story');
-      $script->addSay(v('p_instructions', $language));
-      $script->addGetInput($prompt, 1, '#', 1);
+      $p_episode_intro = v('p_episode_intro', $language);
+      $p_episode_outro = v('p_episode_outro', $language);
+      $p_episode_prompt = "$episode_intro $prompt $episode_outro";
+      
+      $script->addGetInput($p_episode_prompt, 1, '#', 1);
+      $script->addGoto('go_back');
 
+/****
       $script->addLabel('playback_menu');
-      $p_options_menu = v('p_playback_menu', $language);
+      $p_options_menu = v('p_outro_menu', $language);
       $input_options = array(
         '1' => 'play_story',
         '#' => 'go_back',
@@ -197,6 +240,7 @@ return;
 
       $script->addLabel('invalid_option');
       $script->addGoto('go_back');
+****/
 
       $script->addLabel('go_back');
       $script->addReturn();
