@@ -34,8 +34,8 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
 
       // log the call
       $log_msg = t("Call from %caller_number on @date (id: %call_id)",
-          array('@date' => format_date(time())));
-      $script->addLog($log_msg, 'MDT');
+          array('@date' => format_date(time(), 'MDT')));
+      $script->addLog($log_msg, 'PPH');
 
       $script->addSay(v('p_greetings'));
 
@@ -82,7 +82,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
         '1' => 'play_episodes',
         '2' => 'report_abuse',
         '3' => 'positive_story',
-        '4' => 'employer_penalties',
+        '4' => 'resources',
         '5' => 'redirect_to_dwu',
         '#' => 'hang_up',
         'i' => 'invalid_option',
@@ -106,8 +106,8 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addGosub('pph_record_story_script', $options);
       $script->addGoto('options_menu');
 
-      $script->addLabel('employer_penalties');
-      $script->addSay(v('p_employer_penalties', $language));
+      $script->addLabel('resources');
+      $script->addGosub('pph_resources_script', $options);
       $script->addGoto('options_menu');
 
       $script->addLabel('redirect_to_dwu');
@@ -139,7 +139,8 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
         '4' => 'taxes',
         '5' => 'wage_deduction',
         '6' => 'insurance',
-        '9' => 'immigration',
+        '7' => 'penalties',
+        '8' => 'immigration',
         '#' => 'go_back',
         'i' => 'invalid_option',
         't' => 'invalid_option'
@@ -175,6 +176,11 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
 
       $script->addLabel('insurance');
       $options['story_id'] = 'insurance';
+      $script->addGosub('pph_play_story_script', $options);
+      $script->addGoto('episode_directory');
+
+      $script->addLabel('penalties');
+      $options['story_id'] = 'penalties';
       $script->addGosub('pph_play_story_script', $options);
       $script->addGoto('episode_directory');
 
@@ -219,6 +225,9 @@ return;
           break;
         case 'insurance':
           $prompt = v('p_insurance', $language);
+          break;
+        case 'penalties':
+          $prompt = v('p_penalties', $language);
           break;
         case 'immigration':
           $prompt = v('p_immigration', $language);
@@ -295,6 +304,17 @@ return;
 // TODO: check callback result
       $script->addSay(v('p_story_accepted'));
       $script->addGoto('go_back');
+
+      $script->addLabel('go_back');
+      $script->addReturn();
+      break;
+
+    case 'pph_resources_script':
+      $script = new VoipScript('pph_resources_script');
+      $language = $options['language'];
+
+$script->addSay(v('p_resources_menu', $language));
+// TODO: finish this part of the script
 
       $script->addLabel('go_back');
       $script->addReturn();
