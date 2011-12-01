@@ -1,0 +1,33 @@
+<?php
+/**@file
+ * Implementation of hook_install().
+ */
+function pph_install() {
+  //Create PPH lexicon
+  voipvoice_create_lexicon('pph_lexicon', 'this is PPH VoIP Voice lexicon');
+  //Create PPH voices
+  voipvoice_create_voice('pph', 'en', 'pph_lexicon', 'male', 'This is male English PPH voice.');
+  voipvoice_create_voice('pph-spanish', 'es', 'pph_lexicon', 'male', 'This is male Spanish PPH voice.');
+  
+  //Temporary solution, import phrases
+  require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'pph.prompts.inc');
+  global $pph_prompts;
+  foreach ($pph_prompts as $prompt) {
+    if (is_array($prompt['en']['text'])) {
+      foreach ($prompt['en']['text'] as $phrase) {
+        v($phrase, NULL, 'pph');
+      }
+    }
+    else {
+       v($prompt['en']['text'], NULL, 'pph');
+    }
+  }
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function pph_uninstall() {
+ 
+}
+

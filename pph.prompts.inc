@@ -16,7 +16,7 @@ global $pph_prompts;
  * Function definitions
  */
 
-function v($index, $language='en') {
+function leob_v($index, $language='en') {
   global $pph_prompts;
 if(!$pph_prompts[$index]) { watchdog('pph', "missing $index"); }
   $file_name = $pph_prompts[$index][$language]['file_name'];
@@ -51,12 +51,18 @@ $pph_prompts['p_invalid_msg']['en']['text'] = 'Invalid option selected';
 
 
 // Prompts associated with the pph_welcome script
-
+/*
 $pph_prompts['p_greetings']['en']['text'][] = new VoipPrompt('Welcome to New Day New Standard, a show about the Domestic Workers Bill of Rights. ');
 $pph_prompts['p_greetings']['en']['text'][] = new VoipPrompt('Bienvenido a Nueva Ley, Nuevo Amanecer, un programa sobre la Carta de Derechos de las Trabajadoras del Hogar. ', NULL, 'es');
 
 $pph_prompts['p_language_selection_menu']['en']['text'][] = new VoipPrompt("Para Espanol, oprima el numero 1. ", NULL, 'es');
 $pph_prompts['p_language_selection_menu']['en']['text'][] = new VoipPrompt("For English, press 2. ");
+*/
+$pph_prompts['p_greetings']['en']['text'][] = 'Welcome to New Day New Standard, a show about the Domestic Workers Bill of Rights. ';
+$pph_prompts['p_greetings']['en']['text'][] = 'Bienvenido a Nueva Ley, Nuevo Amanecer, un programa sobre la Carta de Derechos de las Trabajadoras del Hogar. ';
+
+$pph_prompts['p_language_selection_menu']['en']['text'][] = "Para Espanol, oprima el numero 1. ";
+$pph_prompts['p_language_selection_menu']['en']['text'][] = "For English, press 2. ";
 
 $pph_prompts['p_thank_you']['en']['text'] = "Thank you for calling New Day New Standard. For more information about this show or about Domestic Workers United go to h t t p know your rights n y dot org or call 2 1 2 4 8 1 5 7 4 7. ";
 $pph_prompts['p_thank_you']['es']['text'] = "(in Spanish) Thank you for calling New Day New Standard. For more information about this show or about Domestic Workers United go to know your rights n y dot org or call 2 1 2 4 8 1 5 7 4 7. ";

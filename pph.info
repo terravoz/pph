@@ -1,5 +1,8 @@
 core = "6.x"
 description = "Provides VoIP Drupal scripts for the PPH project."
 name = "PPH"
+dependencies[] = voipvoice
 package = "pph"
 project = "pph"
+
+

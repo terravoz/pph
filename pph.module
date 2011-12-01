@@ -55,4 +55,12 @@ function pph_admin_form_submit($form, &$form_state) {
   }
 }
 
-
+/*Define default voice for language*/
+/*
+function pph_default_voice_per_language($langcode) {
+  $voices['en'] = 'pph';
+  $voices['es'] = 'pph-spanish';
+  
+  return $voices[$langcode];
+}
+*/
