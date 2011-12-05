@@ -15,7 +15,7 @@ global $pph_prompts;
 /**
  * Function definitions
  */
-
+/*
 function leob_v($index, $language='en') {
   global $pph_prompts;
 if(!$pph_prompts[$index]) { watchdog('pph', "missing $index"); }
@@ -28,7 +28,7 @@ if(!$pph_prompts[$index]) { watchdog('pph', "missing $index"); }
   }
   return $rc;
 }
-
+*/
 function pph_get_missing_prompt_recordings_list($language='en') {
   global $pph_prompts;
   foreach($pph_prompts as $prompt) {

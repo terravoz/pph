@@ -82,18 +82,16 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $voice =  $options['voice'];
       
       $script->addLabel('introduction');
-      $script->addGetInput(v('"New Day New Standard is an interactive talk show about the new Domestic Workers Bill of Rights. I am Christine. "
+      $script->addGetInput(v("New Day New Standard is an interactive talk show about the new Domestic Workers Bill of Rights. I am Christine. "
       . " And I am Miss Know it All. During this talk show, you get to use your telephone to learn about different parts of the law. "
-      . " as well as share your stories and be connected with Domestic Workers United. There is also more info online at w w w dot know your rights n y dot org. "', NULL, $voice), 1);
+      . " as well as share your stories and be connected with Domestic Workers United. There is also more info online at w w w dot know your rights n y dot org. ", NULL, $voice), 1);
       //TODO: Translation of this must be done through Drupal locale interface
       //$script->addGetInput(v('p_introduction', $language), 1);
 
       $script->addLabel('options_menu');
 //TODO: what to do with strings that have a ' (like leo's car) in the middle?
       //$p_options_menu = v('p_options_menu', $language);
-      $p_options_menu = v('"Main menu. To hear exciting episodes about the Domestic Workers Bill of Rights, press 1. To report an abuse, press 2. 
-      To share a positive story, press 3. To learn about resources for domestic workers and domestic employers, press 4. 
-      To speak directly to someone at the Domestic Workers United office, press 5. To hang up press the pound key. "', NULL, $voice);
+      $p_options_menu = v("Main menu. To hear exciting episodes about the Domestic Workers Bill of Rights, press 1. To report an abuse, press 2. To share a positive story, press 3. To learn about resources for domestic workers and domestic employers, press 4. To speak directly to someone at the Domestic Workers United office, press 5. To hang up press the pound key. ", NULL, $voice);
       $input_options = array(
         '1' => 'play_episodes',
         '2' => 'report_abuse',
@@ -142,8 +140,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
 
       $script->addLabel('hang_up');
       //$script->addSay(v('p_thank_you', $language));
-      $script->addSay(v('Thank you for calling New Day New Standard. For more information about this show or about Domestic Workers United go to h t t p 
-      know your rights n y dot org or call 2 1 2 4 8 1 5 7 4 7. ', NULL, $voice));
+      $script->addSay(v('Thank you for calling New Day New Standard. For more information about this show or about Domestic Workers United go to h t t p know your rights n y dot org or call 2 1 2 4 8 1 5 7 4 7. ', NULL, $voice));
 
       $script->addLabel('return');
       $script->addReturn();
@@ -280,9 +277,7 @@ return;
       }
       $script->addLabel('play_story');
       //$p_episode_intro = v('p_episode_intro', $language);
-      $p_episode_intro = v('Hello, Caller! Welcome to New Day, New Standard, a show about the Domestic Workers Bill of Rights and what that means for you.
-      I am Christine Lewis; I am a nanny. And I am Miss Know-It-All.  You\'re about to listen to a new episode, but listen up. In case you want to go 
-      back to the list of episodes, press any key at any time. ', NULL, $voice);
+      $p_episode_intro = v("Hello, Caller! Welcome to New Day, New Standard, a show about the Domestic Workers Bill of Rights and what that means for you.  I am Christine Lewis; I am a nanny. And I am Miss Know-It-All.  You're about to listen to a new episode, but listen up. In case you want to go back to the list of episodes, press any key at any time. ", NULL, $voice);
       //$p_episode_outro = v('p_episode_outro', $language);
       $p_episode_outro = v('This show has been produced by People\'s Production House for Domestic Workers United. I also want to thank National 
       Employment Law Project, Urban Justice Center, and Jews for Racial and Economic Justice for their assistance in producing this show. This is a very,
@@ -374,9 +369,7 @@ return;
       //$language = $options['language'];
       $voice =  $options['voice'];
       //$script->addSay(v('p_resources_menu', $language));
-      $script->addSay(v('If you are an employer and you want to be connected to more resources, email Rachel at j f r e j dot org or visit domestic 
-      employers dot org. If you are a domestic worker and you want to have information about domestic workers meetings sent to the phone that you 
-      are calling on right now, press 1. To return to the main menu, press the pound key. ', NULL, $voice));
+      $script->addSay(v('If you are an employer and you want to be connected to more resources, email Rachel at j f r e j dot org or visit domestic employers dot org. If you are a domestic worker and you want to have information about domestic workers meetings sent to the phone that you are calling on right now, press 1. To return to the main menu, press the pound key. ', NULL, $voice));
 // TODO: finish this part of the script
 
       $script->addLabel('go_back');
