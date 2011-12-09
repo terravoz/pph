@@ -46,7 +46,6 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addLabel('language_selection');
       $p_main_menu[] = new VoipPrompt(v("Para Espanol, oprima el numero 1. ", NULL, 'pph-spanish'), NULL, 'es');
       $p_main_menu[] = new VoipPrompt(v("For English, press 2. ", NULL, 'pph'));
-      //$p_main_menu = v('p_language_selection_menu');
       $input_options = array(
         '1' => 'spanish_version',
         '2' => 'english_version',
@@ -325,7 +324,7 @@ return;
       $max_length = 300; // TODO: max length of the story
       $script->addRecord($prompt, $timeout, $end_key, $max_length);
 
-// TODO: process hang up on recording
+// TODO: What to do in case of hang up on recording? Get rid of the recording?
 
       $script->addLabel('accept_menu');
       $prompt = v('To hear your recording, press 1. To accept your recording, press 2. To record once again, press the star key.', NULL, $voice);
