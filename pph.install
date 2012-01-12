@@ -6,8 +6,8 @@ function pph_install() {
   //Create PPH lexicon
   voipvoice_create_lexicon('pph_lexicon', 'this is PPH VoIP Voice lexicon');
   //Create PPH voices
-  voipvoice_create_voice('pph', 'en', 'pph_lexicon', 'male', 'This is male English PPH voice.');
-  voipvoice_create_voice('pph-spanish', 'es', 'pph_lexicon', 'male', 'This is male Spanish PPH voice.');
+  voipvoice_create_voice('pph', 'en', 'pph_lexicon', 'man', 'This is man English PPH voice.');
+  voipvoice_create_voice('pph-spanish', 'es', 'pph_lexicon', 'man', 'This is man Spanish PPH voice.');
   
   //Temporary solution, import phrases
   _pph_phrases();
@@ -100,6 +100,6 @@ $pph_prompts['p_story_accepted']['en']['text'] = 'Your story has been successful
 $pph_prompts['p_resources_menu']['en']['text'] = 'If you are an employer and you want to be connected to more resources, email Rachel at j f r e j dot org or visit domestic employers dot org. If you are a domestic worker and you want to have information about domestic workers meetings sent to the phone that you are calling on right now, press 1. To return to the main menu, press the pound key. ';
 
 foreach ($pph_prompts as $prompt) {
-    v($prompt['en']['text'], NULL, 'pph');
+    voipvoice_get_prompt($prompt['en']['text'], NULL, 'pph');
   }
 }

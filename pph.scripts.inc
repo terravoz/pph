@@ -28,6 +28,8 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
     case 'pph_welcome_script':
       //$options['language'] = 'es';
       $options['voice'] = 'pph-spanish';
+      $voipvoice = VoipVoice::getVoice('pph-spanish');
+      voipvoice_set_current_voice($voipvoice);
 
       $script = new VoipScript('pph_welcome_script');
       $script->addSetVoice('woman');
@@ -39,14 +41,14 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addLog($log_msg, 'PPH');
 
       $greetings[] =  new VoipPrompt(v('Welcome to New Day New Standard, a show about the Domestic Workers Bill of Rights. ', NULL, 'pph'));
-      $greetings[] =  new VoipPrompt(v('Bienvenido a Nueva Ley, Nuevo Amanecer, un programa sobre la Carta de Derechos de las Trabajadoras del Hogar. ', NULL, 'pph-spanish'), NULL, 'es');
-      //$script->addSay(v('p_greetings'));
+      $greetings[] =  new VoipPrompt(v('Bienvenido a Nueva Ley, Nuevo Amanecer, un programa sobre la Carta de Derechos de las Trabajadoras del Hogar. '), NULL, 'es');
+      
       $script->addSay($greetings);
 
       $script->addLabel('language_selection');
-      $p_main_menu[] = new VoipPrompt(v("Para Espanol, oprima el numero 1. ", NULL, 'pph-spanish'), NULL, 'es');
+      $p_main_menu[] = new VoipPrompt(v("Para Espanol, oprima el numero 1. "), NULL, 'es');
       $p_main_menu[] = new VoipPrompt(v("For English, press 2. ", NULL, 'pph'));
-      //$p_main_menu = v('p_language_selection_menu');
+
       $input_options = array(
         '1' => 'spanish_version',
         '2' => 'english_version',
@@ -80,18 +82,20 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script = new VoipScript('pph_main_menu_script');
       //$language = $options['language'];
       $voice =  $options['voice'];
+      $voipvoice = VoipVoice::getVoice($voice);
+      voipvoice_set_current_voice($voipvoice);
       
       $script->addLabel('introduction');
       $script->addGetInput(v("New Day New Standard is an interactive talk show about the new Domestic Workers Bill of Rights. I am Christine. "
       . " And I am Miss Know it All. During this talk show, you get to use your telephone to learn about different parts of the law. "
-      . " as well as share your stories and be connected with Domestic Workers United. There is also more info online at w w w dot know your rights n y dot org. ", NULL, $voice), 1);
+      . " as well as share your stories and be connected with Domestic Workers United. There is also more info online at w w w dot know your rights n y dot org. "), 1);
       //TODO: Translation of this must be done through Drupal locale interface
       //$script->addGetInput(v('p_introduction', $language), 1);
 
       $script->addLabel('options_menu');
 //TODO: what to do with strings that have a ' (like leo's car) in the middle?
       //$p_options_menu = v('p_options_menu', $language);
-      $p_options_menu = v("Main menu. To hear exciting episodes about the Domestic Workers Bill of Rights, press 1. To report an abuse, press 2. To share a positive story, press 3. To learn about resources for domestic workers and domestic employers, press 4. To speak directly to someone at the Domestic Workers United office, press 5. To hang up press the pound key. ", NULL, $voice);
+      $p_options_menu = v("Main menu. To hear exciting episodes about the Domestic Workers Bill of Rights, press 1. To report an abuse, press 2. To share a positive story, press 3. To learn about resources for domestic workers and domestic employers, press 4. To speak directly to someone at the Domestic Workers United office, press 5. To hang up press the pound key. ");
       $input_options = array(
         '1' => 'play_episodes',
         '2' => 'report_abuse',
@@ -103,7 +107,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
         't' => 'invalid_option'
       );
       //$p_invalid_msg = v('p_invalid_msg');
-      $p_invalid_msg = v('Invalid option selected', NULL, 'pph');
+      $p_invalid_msg = v('Invalid option selected');
       $script->addRunIvrMenu($p_options_menu, $input_options, $p_invalid_msg);
       $script->addGoto('%ivr_option_selected');
 
@@ -112,15 +116,14 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addGoto('options_menu');
 
       $script->addLabel('report_abuse');
-      //$options['story_prompt'] = v('p_report_abuse', $language);
       //TODO: Translation of this must be done through Drupal locale interface
-      $options['story_prompt'] = v('Please record your name and your abuse story after the beep. When done, press the pound key.', NULL, $voice);
+      $options['story_prompt'] = v('Please record your name and your abuse story after the beep. When done, press the pound key.');
       $script->addGosub('pph_record_story_script', $options);
       $script->addGoto('options_menu');
 
       $script->addLabel('positive_story');
-      //$options['story_prompt'] = v('p_positive_story', $language);
-      $options['story_prompt'] = v('Please record your name and your positive story after the beep. When done, press the pound key.', NULL, $voice);
+
+      $options['story_prompt'] = v('Please record your name and your positive story after the beep. When done, press the pound key.');
       $script->addGosub('pph_record_story_script', $options);
       $script->addGoto('options_menu');
 
@@ -129,8 +132,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addGoto('options_menu');
 
       $script->addLabel('redirect_to_dwu');
-      //$script->addSay(v('p_redirecting', $language));
-      $script->addSay(v('Redirecting to DWU office', NULL, $voice));
+      $script->addSay(v('Redirecting to DWU office'));
       $dwu_number = '+12124815747';
       $script->addDial($dwu_number);
       $script->addGoto('return');
@@ -139,8 +141,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addGoto('hang_up');
 
       $script->addLabel('hang_up');
-      //$script->addSay(v('p_thank_you', $language));
-      $script->addSay(v('Thank you for calling New Day New Standard. For more information about this show or about Domestic Workers United go to h t t p know your rights n y dot org or call 2 1 2 4 8 1 5 7 4 7. ', NULL, $voice));
+      $script->addSay(v('Thank you for calling New Day New Standard. For more information about this show or about Domestic Workers United go to h t t p know your rights n y dot org or call 2 1 2 4 8 1 5 7 4 7. '));
 
       $script->addLabel('return');
       $script->addReturn();
@@ -149,9 +150,11 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
     case 'pph_episode_directory_script':
       $script = new VoipScript('pph_episode_directory_script');
       $voice =  $options['voice'];
+      $voipvoice = VoipVoice::getVoice($voice);
+      voipvoice_set_current_voice($voipvoice);
       
       $script->addLabel('episode_directory');
-      //$p_options_menu = v('p_episode_directory', $language);
+
       $p_options_menu = v("Episode directory. "
 . "To hear about the definition of a domestic worker, press 1. "
 . "To hear about minimum wages, press 2. "
@@ -162,7 +165,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
 . "To hear about penalties for employers who do not comply with the law, press 7. "
 . "To hear about immigration issues for domestic workers, trafficking, and modern day slavery, press 8. "
 . "You can also find copies of contracts, guidelines, and other resources at w w w dot know your rights n y dot org. "
-. "To go back to the main menu, press the pound key. ", NULL, $voice);
+. "To go back to the main menu, press the pound key. ");
 
       $input_options = array(
         '1' => 'definition',
@@ -178,7 +181,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
         't' => 'invalid_option'
       );
       //$p_invalid_msg = v('p_invalid_msg');
-      $p_invalid_msg = v('Invalid option selected', NULL, 'pph');
+      $p_invalid_msg = v('Invalid option selected');
       $script->addRunIvrMenu($p_options_menu, $input_options, $p_invalid_msg);
       $script->addGoto('%ivr_option_selected');
 
@@ -234,6 +237,8 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script = new VoipScript('pph_play_story_script');
       $story_id = $options['story_id'];
       $voice =  $options['voice'];
+      $voipvoice = VoipVoice::getVoice($voice);
+      voipvoice_set_current_voice($voipvoice);
 
       switch($story_id) {
         default:
@@ -242,16 +247,13 @@ $script->addLog("Invalid story id: $story_id. ");
 return;
           break;
         case 'definition':
-          //$prompt = v('p_definition', $language);
-          $prompt = v('Here the system will play an episode about definition of a domestic worker. ', NULL, $voice);
+          $prompt = v('Here the system will play an episode about definition of a domestic worker. ');
           break;
         case 'minimum_wages':
-          //$prompt = v('p_minimum_wages', $language);
-          $prompt = v('Here the system will play an episode about minimum wages. ', NULL, $voice);
+          $prompt = v('Here the system will play an episode about minimum wages. ');
           break;
         case 'overtime_wages':
-          //$prompt = v('p_overtime_wages', $language);
-           $prompt = v('Here the system will play an episode about overtime wages. ', NULL, $voice);
+           $prompt = v('Here the system will play an episode about overtime wages. ');
           break;
         case 'taxes':
          //TODO: p_taxes missing
@@ -259,32 +261,26 @@ return;
           //$prompt = v('', NULL, $voice);
           break;
         case 'wage_deduction':
-          //$prompt = v('p_wage_deduction', $language);
-          $prompt = v('Here the system will play an episode about wage deduction. ', NULL, $voice);
+          $prompt = v('Here the system will play an episode about wage deduction. ');
           break;
         case 'insurance':
-          //$prompt = v('p_insurance', $language);
-          $prompt = v('Here the system will play an episode about insurance. ', NULL, $voice);
+          $prompt = v('Here the system will play an episode about insurance. ');
           break;
         case 'penalties':
-          //$prompt = v('p_penalties', $language);
-          $prompt = v('Here the system will play an episode about penalties for employers. ', NULL, $voice);
+          $prompt = v('Here the system will play an episode about penalties for employers. ');
           break;
         case 'immigration':
-          //$prompt = v('p_immigration', $language);
-          $prompt = v('Here the system will play an episode about immigration. ', NULL, $voice);
+          $prompt = v('Here the system will play an episode about immigration. ');
           break;
       }
       $script->addLabel('play_story');
-      //$p_episode_intro = v('p_episode_intro', $language);
-      $p_episode_intro = v("Hello, Caller! Welcome to New Day, New Standard, a show about the Domestic Workers Bill of Rights and what that means for you.  I am Christine Lewis; I am a nanny. And I am Miss Know-It-All.  You're about to listen to a new episode, but listen up. In case you want to go back to the list of episodes, press any key at any time. ", NULL, $voice);
-      //$p_episode_outro = v('p_episode_outro', $language);
+      $p_episode_intro = v("Hello, Caller! Welcome to New Day, New Standard, a show about the Domestic Workers Bill of Rights and what that means for you.  I am Christine Lewis; I am a nanny. And I am Miss Know-It-All.  You're about to listen to a new episode, but listen up. In case you want to go back to the list of episodes, press any key at any time. ");
       $p_episode_outro = v('This show has been produced by People\'s Production House for Domestic Workers United. I also want to thank National 
       Employment Law Project, Urban Justice Center, and Jews for Racial and Economic Justice for their assistance in producing this show. This is a very,
       very exciting moment for domestic workers. For the first time ever, domestic workers are recognized under the labor laws. 
       New York domestic workers paved the way for every nanny, housekeeper, and elder caregiver across the country. 
       Everyone has a stake in getting in on the action and keep blazing the trail of dignity and justice for the workers who make all other work 
-      possible. ', NULL, $voice);
+      possible. ');
       $p_episode_prompt = "$p_episode_intro $prompt $p_episode_outro";
       
       $script->addGetInput($p_episode_prompt, 1, '#', 1);
@@ -317,6 +313,8 @@ return;
       $script = new VoipScript('pph_record_story_script');
      // $language = $options['language'];
       $voice =  $options['voice'];
+      $voipvoice = VoipVoice::getVoice($voice);
+      voipvoice_set_current_voice($voipvoice);
 
       $script->addLabel('start');
       $prompt = $options['story_prompt'];
@@ -328,7 +326,7 @@ return;
 // TODO: process hang up on recording
 
       $script->addLabel('accept_menu');
-      $prompt = v('To hear your recording, press 1. To accept your recording, press 2. To record once again, press the star key.', NULL, $voice);
+      $prompt = v('To hear your recording, press 1. To accept your recording, press 2. To record once again, press the star key.');
       $input_options = array(
         '1' => 'play_recording',
         '2' => 'accept_recording',
@@ -338,7 +336,7 @@ return;
         't' => 'invalid_option'
       );
       //$p_invalid_msg = v('p_invalid_msg');
-      $p_invalid_msg = v('Invalid option selected', NULL, 'pph');
+      $p_invalid_msg = v('Invalid option selected');
       $script->addRunIvrMenu($prompt, $input_options, $p_invalid_msg);
       $script->addGoto('%ivr_option_selected');
 
@@ -347,7 +345,7 @@ return;
 
       $script->addLabel('play_recording');
       //$script->addSay(v('p_recording_playback'));
-      $script->addSay(v('This is what you recorded: ', NULL, 'pph'));
+      $script->addSay(v('This is what you recorded: '));
       $script->addSay('%recording_public_url');
       $script->addGoto('accept_menu');
 
@@ -357,7 +355,7 @@ return;
         "^_pph_recording_callback(%call_id, %recording_public_url, %recording_duration, '$encoded_options')");
 // TODO: check callback result
       //$script->addSay(v('p_story_accepted'));
-      $script->addSay(v('Your story has been successfully recorded. ', NULL, 'pph'));
+      $script->addSay(v('Your story has been successfully recorded. '));
       $script->addGoto('go_back');
 
       $script->addLabel('go_back');
@@ -368,8 +366,10 @@ return;
       $script = new VoipScript('pph_resources_script');
       //$language = $options['language'];
       $voice =  $options['voice'];
-      //$script->addSay(v('p_resources_menu', $language));
-      $script->addSay(v('If you are an employer and you want to be connected to more resources, email Rachel at j f r e j dot org or visit domestic employers dot org. If you are a domestic worker and you want to have information about domestic workers meetings sent to the phone that you are calling on right now, press 1. To return to the main menu, press the pound key. ', NULL, $voice));
+      $voipvoice = VoipVoice::getVoice($voice);
+      voipvoice_set_current_voice($voipvoice);
+      
+      $script->addSay(v('If you are an employer and you want to be connected to more resources, email Rachel at j f r e j dot org or visit domestic employers dot org. If you are a domestic worker and you want to have information about domestic workers meetings sent to the phone that you are calling on right now, press 1. To return to the main menu, press the pound key. '));
 // TODO: finish this part of the script
 
       $script->addLabel('go_back');
