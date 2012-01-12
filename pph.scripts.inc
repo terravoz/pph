@@ -40,14 +40,14 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
           array('@date' => format_date(time(), 'MDT')));
       $script->addLog($log_msg, 'PPH');
 
-      $greetings[] =  new VoipPrompt(v('Welcome to New Day New Standard, a show about the Domestic Workers Bill of Rights. ', NULL, NULL, 'pph'));
-      $greetings[] =  new VoipPrompt(v('Bienvenido a Nueva Ley, Nuevo Amanecer, un programa sobre la Carta de Derechos de las Trabajadoras del Hogar. '), NULL, 'es');
+      $greetings[] =  v('Welcome to New Day New Standard, a show about the Domestic Workers Bill of Rights. ', NULL, 'pph');
+      $greetings[] =  v('Bienvenido a Nueva Ley, Nuevo Amanecer, un programa sobre la Carta de Derechos de las Trabajadoras del Hogar. ');
       
       $script->addSay($greetings);
 
       $script->addLabel('language_selection');
-      $p_main_menu[] = new VoipPrompt(v("Para Espanol, oprima el numero 1. "), NULL, 'es');
-      $p_main_menu[] = new VoipPrompt(v("For English, press 2. ", NULL, NULL, 'pph'));
+      $p_main_menu[] = v("Para Espanol, oprima el numero 1. ");
+      $p_main_menu[] = v("For English, press 2. ", NULL, NULL, 'pph');
       $input_options = array(
         '1' => 'spanish_version',
         '2' => 'english_version',
