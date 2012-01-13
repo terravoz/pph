@@ -39,7 +39,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
           array('@date' => format_date(time(), 'MDT')));
       $script->addLog($log_msg, 'PPH');
 
-      $greetings[] =  v('Welcome to New Day New Standard, a show about the Domestic Workers Bill of Rights. ', NULL, 'pph');
+      $greetings[] =  v('Welcome to New Day New Standard, a show about the Domestic Workers Bill of Rights. ', NULL, NULL, 'pph');
       $greetings[] =  v('Bienvenido a Nueva Ley, Nuevo Amanecer, un programa sobre la Carta de Derechos de las Trabajadoras del Hogar. ');
       
       $script->addSay($greetings);
