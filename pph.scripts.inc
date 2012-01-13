@@ -28,8 +28,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
     case 'pph_welcome_script':
       //$options['language'] = 'es';
       $options['voice'] = 'pph-spanish';
-      $voipvoice = VoipVoice::getVoice('pph-spanish');
-      voipvoice_set_current_voice($voipvoice);
+      voipvoice_set_current_voice('pph-spanish');
 
       $script = new VoipScript('pph_welcome_script');
       $script->addSetVoice('woman');
@@ -81,8 +80,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script = new VoipScript('pph_main_menu_script');
       //$language = $options['language'];
       $voice =  $options['voice'];
-      $voipvoice = VoipVoice::getVoice($voice);
-      voipvoice_set_current_voice($voipvoice);
+      voipvoice_set_current_voice($voice);
       
       $script->addLabel('introduction');
       $script->addGetInput(v("New Day New Standard is an interactive talk show about the new Domestic Workers Bill of Rights. I am Christine. "
@@ -149,8 +147,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
     case 'pph_episode_directory_script':
       $script = new VoipScript('pph_episode_directory_script');
       $voice =  $options['voice'];
-      $voipvoice = VoipVoice::getVoice($voice);
-      voipvoice_set_current_voice($voipvoice);
+      voipvoice_set_current_voice($voice);
       
       $script->addLabel('episode_directory');
 
@@ -236,8 +233,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script = new VoipScript('pph_play_story_script');
       $story_id = $options['story_id'];
       $voice =  $options['voice'];
-      $voipvoice = VoipVoice::getVoice($voice);
-      voipvoice_set_current_voice($voipvoice);
+      voipvoice_set_current_voice($voice);
 
       switch($story_id) {
         default:
@@ -312,8 +308,7 @@ return;
       $script = new VoipScript('pph_record_story_script');
      // $language = $options['language'];
       $voice =  $options['voice'];
-      $voipvoice = VoipVoice::getVoice($voice);
-      voipvoice_set_current_voice($voipvoice);
+      voipvoice_set_current_voice($voice);
 
       $script->addLabel('start');
       $prompt = $options['story_prompt'];
@@ -365,8 +360,7 @@ return;
       $script = new VoipScript('pph_resources_script');
       //$language = $options['language'];
       $voice =  $options['voice'];
-      $voipvoice = VoipVoice::getVoice($voice);
-      voipvoice_set_current_voice($voipvoice);
+      voipvoice_set_current_voice($voice);
       
       $script->addSay(v('If you are an employer and you want to be connected to more resources, email Rachel at j f r e j dot org or visit domestic employers dot org. If you are a domestic worker and you want to have information about domestic workers meetings sent to the phone that you are calling on right now, press 1. To return to the main menu, press the pound key. '));
 // TODO: finish this part of the script
