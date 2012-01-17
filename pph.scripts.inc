@@ -82,12 +82,14 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $voice =  $options['voice'];
       voipvoice_set_current_voice($voice);
       
+/*** Removed temporarily
       $script->addLabel('introduction');
       $script->addGetInput(v("New Day New Standard is an interactive talk show about the new Domestic Workers Bill of Rights. I am Christine. "
       . " And I am Miss Know it All. During this talk show, you get to use your telephone to learn about different parts of the law. "
       . " as well as share your stories and be connected with Domestic Workers United. There is also more info online at w w w dot know your rights n y dot org. "), 1);
       //TODO: Translation of this must be done through Drupal locale interface
       //$script->addGetInput(v('p_introduction', $language), 1);
+****/
 
       $script->addLabel('options_menu');
 //TODO: what to do with strings that have a ' (like leo's car) in the middle?
@@ -251,9 +253,7 @@ return;
            $prompt = v('Here the system will play an episode about overtime wages. ');
           break;
         case 'taxes':
-         //TODO: p_taxes missing
-          //$prompt = v('p_taxes', $language);
-          //$prompt = v('', NULL, $voice);
+          $prompt = v('Here the system will play an episode about taxes. ');
           break;
         case 'wage_deduction':
           $prompt = v('Here the system will play an episode about wage deduction. ');
@@ -269,14 +269,16 @@ return;
           break;
       }
       $script->addLabel('play_story');
-      $p_episode_intro = v("Hello, Caller! Welcome to New Day, New Standard, a show about the Domestic Workers Bill of Rights and what that means for you.  I am Christine Lewis; I am a nanny. And I am Miss Know-It-All.  You're about to listen to a new episode, but listen up. In case you want to go back to the list of episodes, press any key at any time. ");
+//      $p_episode_intro = v("Hello, Caller! Welcome to New Day, New Standard, a show about the Domestic Workers Bill of Rights and what that means for you.  I am Christine Lewis; I am a nanny. And I am Miss Know-It-All.  You're about to listen to a new episode, but listen up. In case you want to go back to the list of episodes, press any key at any time. ");
       $p_episode_outro = v('This show has been produced by People\'s Production House for Domestic Workers United. I also want to thank National 
       Employment Law Project, Urban Justice Center, and Jews for Racial and Economic Justice for their assistance in producing this show. This is a very,
       very exciting moment for domestic workers. For the first time ever, domestic workers are recognized under the labor laws. 
       New York domestic workers paved the way for every nanny, housekeeper, and elder caregiver across the country. 
       Everyone has a stake in getting in on the action and keep blazing the trail of dignity and justice for the workers who make all other work 
       possible. ');
-      $p_episode_prompt = "$p_episode_intro $prompt $p_episode_outro";
+//      $p_episode_prompt[] = $p_episode_intro;
+      $p_episode_prompt[] = $prompt;
+      $p_episode_prompt[] = $p_episode_outro;
       
       $script->addGetInput($p_episode_prompt, 1, '#', 1);
       $script->addGoto('go_back');
