@@ -4,7 +4,11 @@
  */
 function pph_install() {
   //Create PPH lexicon
-  voipvoice_create_lexicon('pph_lexicon', 'this is PPH VoIP Voice lexicon');
+  $lexicon = array(
+   'lexicon' => 'pph_lexicon',
+   'description' => 'this is PPH VoIP Voice lexicon',
+  );
+  voipvoice_create_lexicon($lexicon);
   //Create PPH voices
   voipvoice_create_voice('pph', 'en', 'pph_lexicon', 'man', 'This is man English PPH voice.');
   voipvoice_create_voice('pph-spanish', 'es', 'pph_lexicon', 'man', 'This is man Spanish PPH voice.');
