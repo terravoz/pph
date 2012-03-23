@@ -10,11 +10,33 @@ function pph_install() {
   );
   voipvoice_create_lexicon($lexicon);
   //Create PPH voices
-  voipvoice_create_voice('pph', 'en', 'pph_lexicon', 'man', 'This is man English PPH voice.');
-  voipvoice_create_voice('pph-spanish', 'es', 'pph_lexicon', 'man', 'This is man Spanish PPH voice.');
-  
-  //Temporary solution, import phrases
+  $voice1 = array(
+   'name' => 'pph',
+   'gender' => 'man',
+   'description' => 'This is man English PPH voice.',
+   'language' => 'en',
+   'lexicon' => 'pph_lexicon',
+  );
+  voipvoice_create_voice($voice1);
+
+  $voice2 = array(
+   'name' => 'pph-spanish',
+   'gender' => 'man',
+   'description' => 'This is man Spanish PPH voice.',
+   'language' => 'es',
+   'lexicon' => 'pph_lexicon',
+  );
+  voipvoice_create_voice($voice2);
+
+  //Import phrases
   _pph_phrases();
+  
+  //Import mp3 voices
+  voipvoice_import_voices(drupal_get_path('module','pph').'/pph.zip', 'pph');
+  voipvoice_import_voices(drupal_get_path('module','pph').'/pph-spanish.zip', 'pph-spanish');
+  
+  //Make sure that mp3 is enabled
+  variable_set('voipvoice_allowed_extensions', array('wav' => 'wav', 'mp3' => 'mp3'));
 }
 
 /**
@@ -25,85 +47,242 @@ function pph_uninstall() {
 }
 
 function _pph_phrases() {
-$pph_prompts['p_invalid_msg']['en']['text'] = 'Invalid option selected';
-$pph_prompts['p_greetings']['en']['text'] = 'Welcome to New Day New Standard, a show about the Domestic Workers Bill of Rights. ';
-$pph_prompts['p_greetings2']['en']['text'] = 'Bienvenido a Nueva Ley, Nuevo Amanecer, un programa sobre la Carta de Derechos de las Trabajadoras del Hogar. ';
-
-$pph_prompts['p_language_selection_menu']['en']['text']= "Para Espanol, oprima el numero 1. ";
-$pph_prompts['p_language_selection_menu2']['en']['text']= "For English, press 2. ";
-
-$pph_prompts['p_thank_you']['en']['text'] = "Thank you for calling New Day New Standard. For more information about this show or about Domestic Workers United go to h t t p know your rights n y dot org or call 2 1 2 4 8 1 5 7 4 7. ";
-
-// Prompts associated with pph_main_menu_script
-$pph_prompts['p_introduction']['en']['text']
-  = "New Day New Standard is an interactive talk show about the new Domestic Workers Bill of Rights. I am Christine. "
-  . " And I am Miss Know it All. During this talk show, you get to use your telephone to learn about different parts of the law. "
-  . " as well as share your stories and be connected with Domestic Workers United. There is also more info online at w w w dot know your rights n y dot org. ";
-
-$pph_prompts['p_options_menu']['en']['text'] = 
-"Main menu. To hear exciting episodes about the Domestic Workers Bill of Rights, press 1. To report an abuse, press 2. To share a positive story, press 3. To learn about resources for domestic workers and domestic employers, press 4. To speak directly to someone at the Domestic Workers United office, press 5. To hang up press the pound key. "; 
-
-$pph_prompts['p_report_abuse']['en']['text'] = 'Please record your name and your abuse story after the beep. When done, press the pound key.';
-
-$pph_prompts['p_positive_story']['en']['text'] = 'Please record your name and your positive story after the beep. When done, press the pound key.';
-
-$pph_prompts['p_redirecting']['en']['text'] = 'Redirecting to DWU office';
-
-// Prompts associated with the episode directory
-$pph_prompts['p_episode_directory']['en']['text'] = 
-"Episode directory. "
-. "To hear about the definition of a domestic worker, press 1. "
-. "To hear about minimum wages, press 2. "
-. "To hear about overtime wages, press 3. "
-. "To hear about paying your taxes, press 4. "
-. "To hear about wage deductions, press 5. "
-. "To hear about unemployment insurance, press 6. "
-. "To hear about penalties for employers who do not comply with the law, press 7. "
-. "To hear about immigration issues for domestic workers, trafficking, and modern day slavery, press 8. "
-. "You can also find copies of contracts, guidelines, and other resources at w w w dot know your rights n y dot org. "
-. "To go back to the main menu, press the pound key. ";
-
-// Prompts associated with pph_play_story_script
-
-$pph_prompts['p_definition']['en']['text'] = "Here the system will play an episode about definition of a domestic worker. ";
-
-$pph_prompts['p_minimum_wages']['en']['text'] = "Here the system will play an episode about minimum wages. ";
-
-$pph_prompts['p_overtime_wages']['en']['text'] = "Here the system will play an episode about overtime wages. ";
-
-$pph_prompts['p_wage_deduction']['en']['text'] = "Here the system will play an episode about wage deduction. ";
-
-$pph_prompts['p_insurance']['en']['text'] = "Here the system will play an episode about insurance. ";
-
-$pph_prompts['p_penalties']['en']['text'] = "Here the system will play an episode about penalties for employers. ";
-
-$pph_prompts['p_immigration']['en']['text'] = "Here the system will play an episode about immigration. ";
-
-
-$pph_prompts['p_episode_intro']['en']['text'] = "Hello, Caller! Welcome to New Day, New Standard, a show about the Domestic Workers Bill of Rights and what that means for you.  I am Christine Lewis; I am a nanny. And I am Miss Know-It-All.  You're about to listen to a new episode, but listen up. In case you want to go back to the list of episodes, press any key at any time. ";
-
-$pph_prompts['p_episode_outro']['en']['text'] = "This show has been produced by People\'s Production House for Domestic Workers United. I also want to thank National 
+  $phrases = array (
+    0 => 
+    array (
+      'pid' => '50',
+      'phrase_hash' => 'deeb7c589c8e59a5c8c210fb6f1e15df',
+      'phrase' => 'This is what you recorded:',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    1 => 
+    array (
+      'pid' => '49',
+      'phrase_hash' => '78e86cd75f792598ce48e9ffb697b532',
+      'phrase' => 'To hear your recording, press 1. To accept your recording, press 2. To record once again, press the star key.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    2 => 
+    array (
+      'pid' => '48',
+      'phrase_hash' => '30c77a28a2002650b3dbaee7f0945e69',
+      'phrase' => 'To report an abuse, press 1. To share a positive story, press 2. To go back to the episode directory, press the pound key.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    3 => 
+    array (
+      'pid' => '47',
+      'phrase_hash' => '914c26bee86c6f587f54adb1dd5f0541',
+      'phrase' => 'This show has been produced by People\\\'s Production House for Domestic Workers United. I also want to thank National 
       Employment Law Project, Urban Justice Center, and Jews for Racial and Economic Justice for their assistance in producing this show. This is a very,
       very exciting moment for domestic workers. For the first time ever, domestic workers are recognized under the labor laws. 
       New York domestic workers paved the way for every nanny, housekeeper, and elder caregiver across the country. 
       Everyone has a stake in getting in on the action and keep blazing the trail of dignity and justice for the workers who make all other work 
-      possible. ";
-
-$pph_prompts['p_outro_menu']['en']['text'] = 'To report an abuse, press 1. To share a positive story, press 2. To go back to the episode directory, press the pound key. ';
-
-// Prompts associated with the pph_record_story_script
-
-$pph_prompts['p_recording_confirmation']['en']['text'] = 'To hear your recording, press 1. To accept your recording, press 2. To record once again, press the star key.';
-
-$pph_prompts['p_recording_playback']['en']['text'] = 'This is what you recorded: ';
-
-$pph_prompts['p_story_accepted']['en']['text'] = 'Your story has been successfully recorded. ';
-
-// Prompts associated with the pph_resources_script
-
-$pph_prompts['p_resources_menu']['en']['text'] = 'If you are an employer and you want to be connected to more resources, email Rachel at j f r e j dot org or visit domestic employers dot org. If you are a domestic worker and you want to have information about domestic workers meetings sent to the phone that you are calling on right now, press 1. To return to the main menu, press the pound key. ';
-
-foreach ($pph_prompts as $prompt) {
-    voipvoice_get_prompt($prompt['en']['text'], NULL, 'pph');
-  }
+      possible.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    4 => 
+    array (
+      'pid' => '46',
+      'phrase_hash' => '3ab54292a961cc60ab7b0b62e26e85af',
+      'phrase' => 'Hello, Caller! Welcome to New Day, New Standard, a show about the Domestic Workers Bill of Rights and what that means for you.  I am Christine Lewis; I am a nanny. And I am Miss Know-It-All.  You\'re about to listen to a new episode, but listen up. In case you want to go back to the list of episodes, press any key at any time.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    5 => 
+    array (
+      'pid' => '45',
+      'phrase_hash' => 'b24c5c7e1aa56e9a940c066c3996c43d',
+      'phrase' => 'Here the system will play an episode about immigration.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    6 => 
+    array (
+      'pid' => '44',
+      'phrase_hash' => '5ea09421bca25228ed9c166ccbd6b567',
+      'phrase' => 'Here the system will play an episode about penalties for employers.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    7 => 
+    array (
+      'pid' => '43',
+      'phrase_hash' => '8fc366a709fdecb62ced03157637be8f',
+      'phrase' => 'Here the system will play an episode about insurance.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    8 => 
+    array (
+      'pid' => '39',
+      'phrase_hash' => 'c8e99a2022591626ce7d223feb54ee53',
+      'phrase' => 'Here the system will play an episode about definition of a domestic worker.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    9 => 
+    array (
+      'pid' => '40',
+      'phrase_hash' => 'cdf4a968ab39b1650ffe48bdb0f3b49f',
+      'phrase' => 'Here the system will play an episode about minimum wages.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    10 => 
+    array (
+      'pid' => '41',
+      'phrase_hash' => 'a16e089c21c521d163a332f909846aba',
+      'phrase' => 'Here the system will play an episode about overtime wages.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    11 => 
+    array (
+      'pid' => '42',
+      'phrase_hash' => 'c7dc43e1cfb6ff42ecc9f745f93e2082',
+      'phrase' => 'Here the system will play an episode about wage deduction.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    12 => 
+    array (
+      'pid' => '38',
+      'phrase_hash' => 'dcc72e68529a1868063bc23813047c16',
+      'phrase' => 'Episode directory. To hear about the definition of a domestic worker, press 1. To hear about minimum wages, press 2. To hear about overtime wages, press 3. To hear about paying your taxes, press 4. To hear about wage deductions, press 5. To hear about unemployment insurance, press 6. To hear about penalties for employers who do not comply with the law, press 7. To hear about immigration issues for domestic workers, trafficking, and modern day slavery, press 8. You can also find copies of contracts, guidelines, and other resources at w w w dot know your rights n y dot org. To go back to the main menu, press the pound key.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    13 => 
+    array (
+      'pid' => '37',
+      'phrase_hash' => '594f0a8525b08914e037612ca56eec3e',
+      'phrase' => 'Redirecting to DWU office',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    14 => 
+    array (
+      'pid' => '35',
+      'phrase_hash' => '1d79f38a4ac4b526f9feb33e70c110d3',
+      'phrase' => 'Please record your name and your abuse story after the beep. When done, press the pound key.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    15 => 
+    array (
+      'pid' => '36',
+      'phrase_hash' => 'a3d7ebc4b9972822aebb0f3074274e00',
+      'phrase' => 'Please record your name and your positive story after the beep. When done, press the pound key.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    16 => 
+    array (
+      'pid' => '33',
+      'phrase_hash' => '3c1f9e4cffa90e252c9edc5b8c2f0637',
+      'phrase' => 'New Day New Standard is an interactive talk show about the new Domestic Workers Bill of Rights. I am Christine.  And I am Miss Know it All. During this talk show, you get to use your telephone to learn about different parts of the law.  as well as share your stories and be connected with Domestic Workers United. There is also more info online at w w w dot know your rights n y dot org.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    17 => 
+    array (
+      'pid' => '34',
+      'phrase_hash' => '0ac78fe6a82eee974e5e2e7bb08ad71b',
+      'phrase' => 'Main menu. To hear exciting episodes about the Domestic Workers Bill of Rights, press 1. To report an abuse, press 2. To share a positive story, press 3. To learn about resources for domestic workers and domestic employers, press 4. To speak directly to someone at the Domestic Workers United office, press 5. To hang up press the pound key.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    18 => 
+    array (
+      'pid' => '31',
+      'phrase_hash' => '96fca7118df66f08547fcc8101cdce81',
+      'phrase' => 'For English, press 2.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    19 => 
+    array (
+      'pid' => '32',
+      'phrase_hash' => '00e1d0f32b236dca1791a525ed8d1f62',
+      'phrase' => 'Thank you for calling New Day New Standard. For more information about this show or about Domestic Workers United go to h t t p know your rights n y dot org or call 2 1 2 4 8 1 5 7 4 7.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    20 => 
+    array (
+      'pid' => '30',
+      'phrase_hash' => '87c2c2142cd502c0af3dd193b42bc595',
+      'phrase' => 'Para Espanol, oprima el numero 1.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    21 => 
+    array (
+      'pid' => '27',
+      'phrase_hash' => 'fa390b278205d590d3e55634c5ae3031',
+      'phrase' => 'Invalid option selected',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    22 => 
+    array (
+      'pid' => '28',
+      'phrase_hash' => 'a61b7be4194965aa4cdd27d3425bfc4f',
+      'phrase' => 'Welcome to New Day New Standard, a show about the Domestic Workers Bill of Rights.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    23 => 
+    array (
+      'pid' => '29',
+      'phrase_hash' => 'cc78957584cfd774876222311d01a56e',
+      'phrase' => 'Bienvenido a Nueva Ley, Nuevo Amanecer, un programa sobre la Carta de Derechos de las Trabajadoras del Hogar.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    24 => 
+    array (
+      'pid' => '51',
+      'phrase_hash' => '97ac1f5a8d7ac5a755a6f1e6842708fc',
+      'phrase' => 'Your story has been successfully recorded.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    25 => 
+    array (
+      'pid' => '52',
+      'phrase_hash' => 'f6d0cf6655368aa77e5c4ec639aa19b8',
+      'phrase' => 'If you are an employer and you want to be connected to more resources, email Rachel at j f r e j dot org or visit domestic employers dot org. If you are a domestic worker and you want to have information about domestic workers meetings sent to the phone that you are calling on right now, press 1. To return to the main menu, press the pound key.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    26 => 
+    array (
+      'pid' => '53',
+      'phrase_hash' => 'f676825d80bb8755bb3ae113d0c57c4a',
+      'phrase' => 'This show has been produced by People\'s Production House for Domestic Workers United. I also want to thank National 
+      Employment Law Project, Urban Justice Center, and Jews for Racial and Economic Justice for their assistance in producing this show. This is a very,
+      very exciting moment for domestic workers. For the first time ever, domestic workers are recognized under the labor laws. 
+      New York domestic workers paved the way for every nanny, housekeeper, and elder caregiver across the country. 
+      Everyone has a stake in getting in on the action and keep blazing the trail of dignity and justice for the workers who make all other work 
+      possible.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+    27 => 
+    array (
+      'pid' => '54',
+      'phrase_hash' => 'ccba53c29e513a7e8881cb14c4cf34d3',
+      'phrase' => 'Here the system will play an episode about taxes.',
+      'lexicon' => 'pph_lexicon',
+      'args' => 'a:0:{}',
+    ),
+  );
+  
+  voipvoice_import_phrases($phrases);
 }
