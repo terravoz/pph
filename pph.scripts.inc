@@ -40,10 +40,12 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addLog($log_msg, 'PPH');
 
       $greetings[] =  v('Welcome to New Day New Standard, a show about the Domestic Workers Bill of Rights. ', NULL, NULL, 'pph');
+/** spanish version
       $greetings[] =  v('Bienvenido a Nueva Ley, Nuevo Amanecer, un programa sobre la Carta de Derechos de las Trabajadoras del Hogar. ');
-      
+**/      
       $script->addSay($greetings);
 
+/** spanish version
       $script->addLabel('language_selection');
       $p_main_menu[] = v("Para Espanol, oprima el numero 1. ");
       $p_main_menu[] = v("For English, press 2. ", NULL, NULL, 'pph');
@@ -62,6 +64,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addLabel('spanish_version');
       $script->addGosub('pph_main_menu_script', $options);
       $script->addGoto('hang_up');
+**/      
 
       $script->addLabel('english_version');
       //$options['language'] = 'en';
@@ -94,6 +97,7 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addLabel('options_menu');
 //TODO: what to do with strings that have a ' (like leo's car) in the middle?
       //$p_options_menu = v('p_options_menu', $language);
+/** interactive version
       $p_options_menu = v("Main menu. To hear exciting episodes about the Domestic Workers Bill of Rights, press 1. To report an abuse, press 2. To share a positive story, press 3. To learn about resources for domestic workers and domestic employers, press 4. To speak directly to someone at the Domestic Workers United office, press 5. To hang up press the pound key. ");
       $input_options = array(
         '1' => 'play_episodes',
@@ -101,6 +105,15 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
         '3' => 'positive_story',
         '4' => 'resources',
         '5' => 'redirect_to_dwu',
+        '#' => 'hang_up',
+        'i' => 'invalid_option',
+        't' => 'invalid_option'
+      );
+**/      
+      $p_options_menu = v("Main menu. To hear exciting episodes about the Domestic Workers Bill of Rights, press 1. To speak directly to someone at the Domestic Workers United office, press 2. To hang up press the pound key. ");
+      $input_options = array(
+        '1' => 'play_episodes',
+        '2' => 'redirect_to_dwu',
         '#' => 'hang_up',
         'i' => 'invalid_option',
         't' => 'invalid_option'
