@@ -110,11 +110,10 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
         't' => 'invalid_option'
       );
 **/      
-      $p_options_menu = v("Main menu. To hear exciting episodes about the Domestic Workers Bill of Rights, press 1. To speak directly to someone at the Domestic Workers United office, press 2. To hang up press the pound key. ");
+      $p_options_menu = v("Main menu. To hear exciting episodes about the Domestic Workers Bill of Rights, press 1. To speak directly to someone at the Domestic Workers United office, press 2. ");
       $input_options = array(
         '1' => 'play_episodes',
         '2' => 'redirect_to_dwu',
-        '#' => 'hang_up',
         'i' => 'invalid_option',
         't' => 'invalid_option'
       );
@@ -283,17 +282,22 @@ return;
       }
       $script->addLabel('play_story');
 //      $p_episode_intro = v("Hello, Caller! Welcome to New Day, New Standard, a show about the Domestic Workers Bill of Rights and what that means for you.  I am Christine Lewis; I am a nanny. And I am Miss Know-It-All.  You're about to listen to a new episode, but listen up. In case you want to go back to the list of episodes, press any key at any time. ");
+/**
       $p_episode_outro = v('This show has been produced by People\'s Production House for Domestic Workers United. I also want to thank National 
       Employment Law Project, Urban Justice Center, and Jews for Racial and Economic Justice for their assistance in producing this show. This is a very,
       very exciting moment for domestic workers. For the first time ever, domestic workers are recognized under the labor laws. 
       New York domestic workers paved the way for every nanny, housekeeper, and elder caregiver across the country. 
       Everyone has a stake in getting in on the action and keep blazing the trail of dignity and justice for the workers who make all other work 
       possible. ');
+**/
+      $p_episode_outro = v('episode outro message. ');
+watchdog('debug', "outro: " . print_r($p_episode_outro, true));
 //      $p_episode_prompt[] = $p_episode_intro;
       $p_episode_prompt[] = $prompt;
       $p_episode_prompt[] = $p_episode_outro;
       
       $script->addGetInput($p_episode_prompt, 1, '#', 1);
+watchdog('debug', "prompt: " . print_r($p_episode_prompt, true));
       $script->addGoto('go_back');
 
 /****
