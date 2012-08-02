@@ -40,12 +40,9 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addLog($log_msg, 'PPH');
 
       $greetings[] =  v('Welcome to New Day New Standard, a show about the Domestic Workers Bill of Rights. ', NULL, NULL, 'pph');
-/** spanish version
       $greetings[] =  v('Bienvenido a Nueva Ley, Nuevo Amanecer, un programa sobre la Carta de Derechos de las Trabajadoras del Hogar. ');
-**/      
       $script->addSay($greetings);
 
-/** spanish version
       $script->addLabel('language_selection');
       $p_main_menu[] = v("Para Espanol, oprima el numero 1. ");
       $p_main_menu[] = v("For English, press 2. ", NULL, NULL, 'pph');
@@ -64,7 +61,6 @@ function pph_voipscript_load_script($script_name, $options=NULL) {
       $script->addLabel('spanish_version');
       $script->addGosub('pph_main_menu_script', $options);
       $script->addGoto('hang_up');
-**/      
 
       $script->addLabel('english_version');
       //$options['language'] = 'en';
